@@ -24,8 +24,16 @@ for ticker in ticker_list:
     data[ticker] = yf.download(ticker, start=start_date, end=end_date)
 
 # Combine adjusted close prices into a single DataFrame
-prices = pd.concat([data[ticker]["Adj Close"] for ticker in ticker_list], axis=1)
-prices.columns = ticker_list
+try:
+    prices = pd.concat(
+        [data[ticker]["Adj Close"] for ticker in ticker_list if "Adj Close" in data[ticker].columns],
+        axis=1
+    )
+    prices.columns = [ticker for ticker in ticker_list if "Adj Close" in data[ticker].columns]
+except KeyError:
+    st.error("One or more tickers do not contain 'Adj Close' data. Please check the ticker symbols.")
+    st.stop()
+
 
 # Calculate daily returns
 returns = prices.pct_change().dropna()
