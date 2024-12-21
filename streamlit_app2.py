@@ -1,5 +1,4 @@
 
-# Streamlit app to simulate optimal portfolio using Monte Carlo simulations
 """
 Monte Carlo Portfolio Optimization Web Application
 This Streamlit application performs portfolio optimization using Monte Carlo simulation
@@ -39,7 +38,6 @@ Usage:
 Run the script using: streamlit run streamlit_app2.py
 """
 
-#import libraries
 import yfinance as yf 
 import pandas as pd 
 import numpy as np 
@@ -48,9 +46,9 @@ import seaborn as sns
 import streamlit as st
 
 # Streamlit title
-st.title("Optimal Portfolio Monte Carlo Simulations")
+st.title("Monte Carlo Portfolio Simulation with Enhanced Features")
 
-# Inputs for Streamlit sidebar 
+# Inputs for Streamlit
 start_date = st.sidebar.date_input("Start Date", value=pd.to_datetime("2015-01-01"))
 end_date = st.sidebar.date_input("End Date", value=pd.to_datetime("2023-12-31"))
 tickers = st.sidebar.text_input("Enter Tickers (comma-separated)", value="SPY,VTI,QQQ")
@@ -155,7 +153,6 @@ ax.set_ylabel("Return")
 ax.legend()
 st.pyplot(fig)
 
-# Downloadable report
 st.subheader("Downloadable Report")
 def generate_report():
     # Create a DataFrame for weights
