@@ -25,14 +25,15 @@ for ticker in ticker_list:
 
 # Combine adjusted close prices into a single DataFrame
 try:
-    prices = pd.concat(
-        [data[ticker]["Adj Close"] for ticker in ticker_list if "Adj Close" in data[ticker].columns],
-        axis=1
-    )
+    valid_data = [data[ticker]["Adj Close"] for ticker in ticker_list if "Adj Close" in data[ticker].columns]
+    if not valid_data:
+        raise ValueError("No valid data to process. Please check the ticker symbols or date range.")
+    prices = pd.concat(valid_data, axis=1)
     prices.columns = [ticker for ticker in ticker_list if "Adj Close" in data[ticker].columns]
-except KeyError:
-    st.error("One or more tickers do not contain 'Adj Close' data. Please check the ticker symbols.")
+except ValueError as e:
+    st.error(str(e))
     st.stop()
+
 
 
 # Calculate daily returns
